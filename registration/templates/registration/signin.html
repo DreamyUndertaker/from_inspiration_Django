@@ -3,7 +3,7 @@
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 {% load crispy_forms_tags %}
-{% block title %}Signup{% endblock %}
+{% block title %}Signin{% endblock %}
 {% block content %}
     <div class="container-fluid">
         <div class="row justify-content-center gx-5">
@@ -25,26 +25,11 @@
                         </p>
                     </div>
                     <div class="row text-center justify-content-center">
-                        <div class="col">
-                            <button type="button" class="btn btn-success">
-                                Дизайнер
-                            </button>
-                            <button type="button" class="btn btn-success">
-                                Поставщик
-                            </button>
-                        </div>
                         <div class="row" style="padding-top: 10px">
                             <div class="col text-center">
                                 <button type="submit" class="btn" style="background-color: #8D35E4; color: white">
-                                    Зарегистрироваться
-                                </button>
-                            </div>
-                        </div>
-                        <div class="row" style="padding-top: 10px">
-                            <div class="col text-center">
-                                <a href="{% url 'signin' %}" class="btn" style="background-color: #8D35E4; color: white">
                                     Войти
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
