@@ -10,18 +10,15 @@
             <div class="col-2 align-self-center ">
                 <form method="post">
                     {% csrf_token %}
+                    {{ error_message.error_message }}
                     <div class="row">
                         <label for="login">Логин или почта</label>
                         <p>
-                            {{ form.login }}
+                            {{ form.username }}
                         </p>
                         <label for="password">Пароль</label>
                         <p>
                             {{ form.password }}
-                        </p>
-                        <label for="date_of_birth">Дата рождения</label>
-                        <p>
-                            {{ form.date_of_birth }}
                         </p>
                     </div>
                     <div class="row text-center justify-content-center">
