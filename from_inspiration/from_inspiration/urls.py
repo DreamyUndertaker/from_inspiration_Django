@@ -21,5 +21,5 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/", include("registration.urls")),
     path("", include('home.urls'))
-    # TODO
+    # TODO переопределить методы и маршруты для auth и вынести это в отдельное приложение
 ]
