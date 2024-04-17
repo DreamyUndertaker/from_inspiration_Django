@@ -1,10 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 </head>
 <body>
+{% load static %}
+{% block navbar %}
+    <div class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-brand">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'img/logo/logo.png' %}" alt="" style="height: 40px; width: 40px; background-color: #8D35E5; border-radius: 30px; color: white">
+                </a>
+            </div>
+             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link active text-decoration-none" aria-current="page" href="{% url 'home' %}" style="color: black">
+                      From inspiration
+                  </a>
+                </li>
+             </ul>
+             <form class="d-flex">
+                 <div class="row">
+                    <div class="col">
+                        <input class="form-control" type="search" placeholder="Поиск" aria-label="Search" style="width: 150vh">
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-success" type="submit">Поиск</button>
+                    </div>
+                 </div>
+             </form>
+        </div>
+    </div>
+{% endblock %}
 {% block content %}
 
 {% endblock %}
