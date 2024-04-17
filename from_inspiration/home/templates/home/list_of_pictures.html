@@ -3,20 +3,21 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col">
-                <p>
+                <div>
                     {% if user.is_authenticated %}
                         Hi {{ user.username }}!
                         <form action="{% url 'logout' %}" method="post">
                             {% csrf_token %}
                             <button type="submit">Log Out</button>
                         </form>
+
                     {% else %}
                         <p>You are not logged in</p>
                         <a href="{% url 'signup' %}">Log In</a>
                         <p>If you already have account</p>
                         <a href="{% url 'login' %}">Log In</a>
                     {% endif %}
-                </p>
+                </div>
             </div>
         </div>
     </div>
