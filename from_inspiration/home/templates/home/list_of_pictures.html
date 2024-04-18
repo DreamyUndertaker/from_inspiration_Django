@@ -6,24 +6,29 @@
             <div class="col">
                 <div>
                     {% if user.is_authenticated %}
-                        Hi {{ user.username }}
-                        <form action="{% url 'logout' %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit">Log Out</button>
-                        </form>
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col">
-
-                                </div>
+                                {% for card in object_list %}
+                                    <div class="col-2">
+                                        <div class="card" style="width: 18rem;">
+                                            <img src="{{ card.image.url }}" class="card-img-top " style="height: 330px; " alt="">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ card.name }}</h5>
+                                                <a href="{% url 'card_detail' card.slug %}" class="btn btn-primary">Подробнее</a>
+                                              </div>
+                                        </div>
+                                    </div>
+                                {% empty %}
+                                    <p>Нет записей</p>
+                                {% endfor %}
                             </div>
                         </div>
 
                     {% else %}
                         <p>You are not logged in</p>
-                        <a href="{% url 'signup' %}">Log In</a>
+                        <a href="{% url 'signup' %}">Sign Up</a> <!-- Ссылка на страницу регистрации -->
                         <p>If you already have account</p>
-                        <a href="{% url 'login' %}">Log In</a>
+                        <a href="{% url 'login' %}">Log In</a> <!-- Ссылка на страницу входа -->
                     {% endif %}
                 </div>
             </div>
