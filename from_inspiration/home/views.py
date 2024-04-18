@@ -4,18 +4,31 @@ from django.views import View
 from django.views.generic import ListView, DetailView
 
 from home.froms import CommentForm
-from home.models import Card
+from home.models import Card, Category
 
 
 # Create your views here.
 class ProductsList(ListView):
     model = Card
     template_name = 'home/list_of_pictures.html'
+    context_object_name = 'cards'
+    paginate_by = 10
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect('login')  # Перенаправление на страницу входа, если пользователь не аутентифицирован
-        return super().dispatch(request, *args, **kwargs)
+    def get_queryset(self):
+        queryset = super().get_queryset()  # Получаем изначальный QuerySet всех карточек
+
+        category_slug = self.request.GET.get('category')  # Получаем выбранную категорию из параметра запроса
+
+        if category_slug:  # Если указана категория, фильтруем карточки по ней
+            queryset = queryset.filter(category__slug=category_slug)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()  # Получаем все категории
+        context['selected_category'] = self.request.GET.get('category')  # Получаем выбранную категорию из GET-параметра
+        return context
 
 
 class CardDetailView(View):

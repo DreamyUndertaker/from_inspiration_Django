@@ -5,6 +5,7 @@ from from_inspiration import settings
 from home.views import ProductsList, CardDetailView
 
 urlpatterns = [
-    path('', ProductsList.as_view(template_name='home/list_of_pictures.html'), name='home'),
+    path('<slug:category_slug>/', ProductsList.as_view(), name='category_products_list'),
+    path('', ProductsList.as_view(), name='home_products_list'),
     path('products/<slug:slug>', CardDetailView.as_view(), name='card_detail'),
 ]
