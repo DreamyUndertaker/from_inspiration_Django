@@ -24,7 +24,6 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/", include("registration.urls")),
     path("home/", include('home.urls'))
-    # TODO переопределить методы и маршруты для auth и вынести это в отдельное приложение
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -13,7 +13,7 @@ class CustomLoginView(LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
-        return reverse_lazy('home')  # Редирект на домашнюю страницу после успешной авторизации
+        return reverse_lazy('home_products_list')  # Редирект на домашнюю страницу после успешной авторизации
 
 
 class RegisterView(FormView):

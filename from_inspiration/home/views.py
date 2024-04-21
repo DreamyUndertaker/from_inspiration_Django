@@ -1,34 +1,34 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.views import View
 from django.views.generic import ListView, DetailView
 
-from home.froms import CommentForm
+from home.forms import CommentForm
 from home.models import Card, Category
 
 
 # Create your views here.
-class ProductsList(ListView):
-    model = Card
+class ProductListView(ListView):
     template_name = 'home/list_of_pictures.html'
-    context_object_name = 'cards'
+    context_object_name = 'products'
     paginate_by = 10
-
-    def get_queryset(self):
-        queryset = super().get_queryset()  # Получаем изначальный QuerySet всех карточек
-
-        category_slug = self.request.GET.get('category')  # Получаем выбранную категорию из параметра запроса
-
-        if category_slug:  # Если указана категория, фильтруем карточки по ней
-            queryset = queryset.filter(category__slug=category_slug)
-
-        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()  # Получаем все категории
-        context['selected_category'] = self.request.GET.get('category')  # Получаем выбранную категорию из GET-параметра
+        context['categories'] = Category.objects.all()
+        context['category'] = self.category
         return context
+
+    def get_queryset(self):
+        self.category = None
+        self.categories = Category.objects.all()
+        self.products = Card.objects.all()  # Используем все объекты Card
+
+        category_slug = self.kwargs.get('category_slug')
+        if category_slug:
+            self.category = get_object_or_404(Category, slug=category_slug)
+            self.products = self.products.filter(category=self.category)
+        return self.products
 
 
 class CardDetailView(View):
