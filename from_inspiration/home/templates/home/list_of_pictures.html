@@ -3,22 +3,24 @@
 {% block title %}HomePage{% endblock %}
 {% block content %}
     <div class="container-fluid">
-            <div>
+            <div class="row justify-content-center gap-5">
                 {% for category in categories %}
-                    <div class="card text-center" style="width: 13rem">
-                        <img src="{% static 'img/category/1.png' %}" alt="" class="card-img" style="height: 16rem; width: 13rem">
-                        <div class="card-img-overlay align-items-center justify-content-center">
-                            <h5 class="card-title">
-                                <a href="{% url 'product_list_by_category' category.slug %}" class="text-decoration-none text-black text-center">
-                                    {{ category.name }}
-                                </a>
-                            </h5>
+                    <div class="card align-self-center" style="width: 13rem; align-items: center">
+                        <img src="{{ category.image.url }}" alt="" class="card-img-center" style="height: 16rem; width: 13rem; filter: blur(2px)">
+                        <div class="card-img-overlay align-items-center d-flex justify-content-center" style="height: 16rem; width: 13rem">
+                            <div class="col align-self-center">
+                                <h5 class="card-title text-center" style="">
+                                    <a href="{% url 'product_list_by_category' category.slug %}" class="text-decoration-none text-white text-center">
+                                        <h2 class="text-uppercase fw-bolder">{{ category.name }}</h2>
+                                    </a>
+                                </h5>
+                            </div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
             <div>
-                <h1>
+                <h1 class="text-center bg-light" >
                     {% if category %}
                         {{ category.name }}
                     {% else %}
@@ -31,15 +33,13 @@
                 <div>
                     {% if user.is_authenticated %}
                         <div class="container-fluid">
-                            <div class="row">
+                            <div class="row justify-content-center gap-5">
                                 {% for card in object_list %}
-                                    <div class="col-2">
-                                        <div class="card" style="width: 18rem;">
-                                            <img src="{{ card.image.url }}" class="card-img-top " style="height: 330px; " alt="">
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ card.name }}</h5>
-                                                <a href="{% url 'card_detail' card.slug %}" class="btn btn-primary">Подробнее</a>
-                                              </div>
+                                    <div class="card" style="width: 18rem;">
+                                        <img src="{{ card.image.url }}" class="card-img-top " style="height: 330px; " alt="">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ card.name }}</h5>
+                                            <a href="{% url 'card_detail' card.slug %}" class="btn btn-primary">Подробнее</a>
                                         </div>
                                     </div>
                                 {% empty %}
