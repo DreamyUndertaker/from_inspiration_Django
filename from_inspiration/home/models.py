@@ -42,4 +42,6 @@ class Comment(models.Model):
         return f'Comment by {self.author.username} on {self.card.name}'
 
 
-
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    picture = models.ImageField(default='users/default_user.png', upload_to='users', blank=True, null=True)

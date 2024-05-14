@@ -1,0 +1,21 @@
+{% extends 'home/layout.html' %}
+{% load bootstrap5 %}
+{% block title %}{{ card.name }}{% endblock %}
+{% block content %}
+    <h1>User Settings</h1>
+
+    <!-- Форма для обновления профиля пользователя -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {{ user_form.as_p }}
+
+{#        {% bootstrap_label 'Логин' %}#}
+{#        {% bootstrap_field form.first_name show_label=False placeholder='Логин' %}#}
+{##}
+{#        {% bootstrap_label 'Пароль' %}#}
+{#        {% bootstrap_field form.last_name show_label=False placeholder='Пароль' %}#}
+
+        <button type="submit">Save Changes</button>
+    </form>
+{% endblock %}

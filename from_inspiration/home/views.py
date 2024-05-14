@@ -1,10 +1,14 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.utils import timezone
-from django.views import View
-from django.views.generic import ListView, DetailView
+from audioop import reverse
 
-from home.forms import CommentForm
-from home.models import Card, Category
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+from django.views import View
+from django.views.generic import ListView, DetailView, UpdateView
+
+from .forms import CommentForm, UserUpdateForm, ProfileUpdateForm
+from .models import Card, Category
 
 
 # Create your views here.
@@ -53,3 +57,34 @@ class CardDetailView(View):
 
         comments = card.comments.all()
         return render(request, self.template_name, {'card': card, 'comments': comments, 'form': form})
+
+
+class UserProfileDetailView(DetailView):
+    template_name = 'home/user_detail.html'
+    context_object_name = 'user'
+    model = User
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.get_object()
+        context['user_cards'] = Card.objects.filter(author=user)
+        context['all_categories'] = Category.objects.all()
+        return context
+
+
+class UserSettingsUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = 'home/settings.html'
+    context_object_name = 'user'
+    form_class = ProfileUpdateForm
+    model = User
+
+    def get_success_url(self):
+        return reverse_lazy('user-settings', kwargs={'pk': self.get_object().id})
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_form'] = UserUpdateForm(instance=self.request.user)
+        return context

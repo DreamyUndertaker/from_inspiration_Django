@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, FormView
 
-from registration.forms import RegistrationForm, UserLoginForm
+from .forms import RegistrationForm, UserLoginForm
 
 
 class CustomLoginView(LoginView):

@@ -1,0 +1,106 @@
+{% extends 'home/layout.html' %}
+{% load bootstrap5 %}
+{% block title %}{{ user.username }}{% endblock %}
+{% load static %}
+{% block content %}
+    <h1>User Detail</h1>
+    {% if user.is_authenticated %}
+        <div class="container-fluid">
+            <div class="row justify-content-md-center row align-items-center text-center">
+                <div class="col-1">
+                    <div class="row">
+                        <img src="{% static 'img/category/1.png' %}" alt="" style="width: 200px; height: 200px">
+                    </div>
+                    <div class="row">
+                        <h4>
+                            {{ user.username }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-md-center row align-items-center text-center">
+                <div class="col-2">
+                    <a href="" class="btn btn-success" style="border-radius: 20px">Поделиться</a>
+                    <a href="{% url 'user-settings' user.id %}" class="btn btn-success" style="border-radius: 20px">Изменить профиль</a>
+                </div>
+
+            </div>
+            <div class="row justify-content-md-center row align-items-center mx-auto"
+                 style="background-color: whitesmoke; max-width: 1500px; margin-top: 30px; border-radius: 10px; padding-bottom: 30px">
+                <div class="col">
+                    <div class="row">
+                        <div class="container-fluid">
+                            <h3 class="text-center">Все категории:</h3>
+                            {% if all_categories %}
+                                <div class="row justify-content-center gap-5">
+                                    {% for category in all_categories %}
+                                        <div class="card align-self-center" style="width: 13rem; align-items: center">
+                                            <img src="{{ category.image.url }}" alt="" class="card-img-center" style="height: 16rem; width: 13rem; filter: blur(2px)">
+                                            <div class="card-img-overlay align-items-center d-flex justify-content-center" style="height: 16rem; width: 13rem">
+                                                <div class="col align-self-center">
+                                                    <h5 class="card-title text-center" style="">
+                                                        <a href="{% url 'product_list_by_category' category.slug %}" class="text-decoration-none text-white text-center">
+                                                            <h2 class="text-uppercase fw-bolder">{{ category.name }}</h2>
+                                                        </a>
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% empty %}
+                                        <p>Нет записей</p>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p>No cards found for this user.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-md-center row align-items-center mx-auto"
+                 style="background-color: whitesmoke; max-width: 1500px; margin-top: 30px; border-radius: 10px; padding-bottom: 30px">
+                <div class="col">
+                    <div class="row text-center">
+                         <h4>
+                             Созданные
+                         </h4>
+                    </div>
+                    <div class="row">
+                        <div class="container-fluid">
+                            {% if user_cards %}
+                                <div class="row justify-content-center gap-5">
+                                    {% for card in user_cards %}
+                                        <div class="card" style="width: 18rem;">
+                                            <a href="{% url 'card_detail' card.slug %}">
+                                                <img src="{{ card.image.url }}" class="card-img-top " style="height: 330px; " alt="">
+                                            </a>
+                                        </div>
+                                    {% empty %}
+                                        <p>Нет записей</p>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p>No cards found for this user.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-md-center row align-items-center mx-auto"
+                 style="background-color: whitesmoke; max-width: 1500px; margin-top: 30px; border-radius: 10px; padding-bottom: 30px">
+                <div class="col-1">
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-success">Выйти</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    {% else %}
+        <p>You are not logged in</p>
+        <a href="{% url 'signup' %}">Sign Up</a>
+        <p>If you already have account</p>
+        <a href="{% url 'login' %}">Log In</a>
+    {% endif %}
+{% endblock %}

@@ -3,8 +3,8 @@ from django.contrib.auth import views
 from django.urls import path
 
 from from_inspiration import settings
-from registration.forms import UserLoginForm
-from registration.views import RegisterView, CustomLoginView
+from .forms import UserLoginForm
+from .views import RegisterView, CustomLoginView
 
 urlpatterns = [
     path("signup/", RegisterView.as_view(template_name='registration/registration.html'),
