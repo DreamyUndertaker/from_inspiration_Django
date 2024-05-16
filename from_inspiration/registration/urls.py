@@ -9,7 +9,7 @@ from .views import RegisterView, CustomLoginView
 urlpatterns = [
     path("signup/", RegisterView.as_view(template_name='registration/registration.html'),
          name="signup"),
-    path('login/', CustomLoginView.as_view(form_class=UserLoginForm, template_name="registration/login.html"),
+    path('login/', CustomLoginView.as_view(template_name="registration/login.html"),
          name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
 ]

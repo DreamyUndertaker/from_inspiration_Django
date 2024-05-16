@@ -21,7 +21,7 @@ from from_inspiration import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("accounts/", include("django.contrib.auth.urls")),
+
     path("accounts/", include("registration.urls")),
     path("home/", include('home.urls'))
 ]

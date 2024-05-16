@@ -1,6 +1,7 @@
 from audioop import reverse
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -8,7 +9,7 @@ from django.views import View
 from django.views.generic import ListView, DetailView, UpdateView
 
 from .forms import CommentForm, UserUpdateForm, ProfileUpdateForm
-from .models import Card, Category
+from .models import Card, Category, UserProfile
 
 
 # Create your views here.
@@ -26,7 +27,7 @@ class ProductListView(ListView):
     def get_queryset(self):
         self.category = None
         self.categories = Category.objects.all()
-        self.products = Card.objects.all()  # Используем все объекты Card
+        self.products = Card.objects.all()
 
         category_slug = self.kwargs.get('category_slug')
         if category_slug:
@@ -74,17 +75,19 @@ class UserProfileDetailView(DetailView):
 
 class UserSettingsUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'home/settings.html'
-    context_object_name = 'user'
     form_class = ProfileUpdateForm
-    model = User
+    model = UserProfile
 
     def get_success_url(self):
-        return reverse_lazy('user-settings', kwargs={'pk': self.get_object().id})
+        return reverse_lazy('user-settings', kwargs={'pk': self.request.user.pk})
 
     def get_object(self, queryset=None):
-        return self.request.user
+        return self.request.user  # Здесь используется userprofile, который связан с User
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['user_form'] = UserUpdateForm(instance=self.request.user)
-        return context
+    def form_valid(self, form):
+        messages.success(self.request, "Settings updated successfully")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "There was an error updating the settings")
+        return super().form_invalid(form)

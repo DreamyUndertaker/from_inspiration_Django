@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from home.models import Card, Comment, Category
+from home.models import Card, Comment, Category, UserProfile
 
 
 # Register your models here.
@@ -12,6 +12,8 @@ class CardAdmin(admin.ModelAdmin):
 admin.site.register(Card, CardAdmin)
 
 admin.site.register(Comment)
+
+admin.site.register(UserProfile)
 
 
 class CategoryAdmin(admin.ModelAdmin):

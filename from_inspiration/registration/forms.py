@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm, UsernameField, UserCreationForm
 
 from django.contrib.auth.forms import UserCreationForm, UsernameField
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 
@@ -15,37 +16,22 @@ class RegistrationForm(UserCreationForm):
             'help_text': ''
         }
     ))
-    password = forms.CharField(required=True, widget=forms.PasswordInput(
+    password1 = forms.CharField(required=True, widget=forms.PasswordInput(
         attrs={
             'class': 'form-control',
             'placeholder': 'Пароль',
             'id': 'hi',
             'help_text': '',
-            'form_text': '',
             'label': 'Пароль',
-            'title': ''
         }
     ))
-    password1 = forms.CharField(required=False, widget=forms.PasswordInput(
-        attrs={
-            'class': 'form-control',
-            'placeholder': 'Пароль',
-            'id': 'hi',
-            'help_text': '',
-            'form_text': '',
-            'label': 'Пароль',
-            'title': ''
-        }
-    ))
-    password2 = forms.CharField(required=False, widget=forms.PasswordInput(
+    password2 = forms.CharField(required=True, widget=forms.PasswordInput(
         attrs={
             'class': 'form-control',
             'placeholder': 'Подтвердите пароль',
             'id': 'confirm_password',
             'help_text': '',
-            'form_text': '',
             'label': 'Подтвердите пароль',
-            'title': ''
         }
     ))
     date_of_birth = forms.DateField(widget=forms.DateInput(
@@ -55,6 +41,10 @@ class RegistrationForm(UserCreationForm):
             'id': 'date_of_birth',
         }
     ), input_formats=['%d/%m/%Y'])  # Ожидаемый формат даты
+
+    class Meta:
+        model = User
+        fields = ['username', 'password1', 'password2', 'date_of_birth']
 
     def clean_date_of_birth(self):
         date_of_birth = self.cleaned_data.get('date_of_birth')
@@ -85,13 +75,16 @@ class UserLoginForm(AuthenticationForm):
         password = self.cleaned_data.get('password')
 
         if username and password:
+            print(f"Trying to authenticate user: {username}")
             self.user_cache = authenticate(self.request, username=username, password=password)
             if self.user_cache is None:
+                print("Authentication failed")
                 raise forms.ValidationError(
                     self.error_messages['invalid_login'],
                     code='invalid_login',
                     params={'username': self.username_field.verbose_name},
                 )
             else:
+                print("Authentication successful")
                 self.confirm_login_allowed(self.user_cache)
         return self.cleaned_data

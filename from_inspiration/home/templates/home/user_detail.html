@@ -3,13 +3,12 @@
 {% block title %}{{ user.username }}{% endblock %}
 {% load static %}
 {% block content %}
-    <h1>User Detail</h1>
     {% if user.is_authenticated %}
         <div class="container-fluid">
             <div class="row justify-content-md-center row align-items-center text-center">
                 <div class="col-1">
                     <div class="row">
-                        <img src="{% static 'img/category/1.png' %}" alt="" style="width: 200px; height: 200px">
+                        <img src="{{ user.userprofile.picture.url }}" alt="Profile picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
                     </div>
                     <div class="row">
                         <h4>
@@ -23,7 +22,6 @@
                     <a href="" class="btn btn-success" style="border-radius: 20px">Поделиться</a>
                     <a href="{% url 'user-settings' user.id %}" class="btn btn-success" style="border-radius: 20px">Изменить профиль</a>
                 </div>
-
             </div>
             <div class="row justify-content-md-center row align-items-center mx-auto"
                  style="background-color: whitesmoke; max-width: 1500px; margin-top: 30px; border-radius: 10px; padding-bottom: 30px">

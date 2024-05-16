@@ -9,17 +9,22 @@ from .forms import RegistrationForm, UserLoginForm
 
 class CustomLoginView(LoginView):
     template_name = 'registration/login.html'
-    authentication_form = UserLoginForm  # Ваша форма входа
+    authentication_form = UserLoginForm
     redirect_authenticated_user = True
 
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect(self.get_success_url())
+        return super().dispatch(request, *args, **kwargs)
+
     def get_success_url(self):
-        return reverse_lazy('home_products_list')  # Редирект на домашнюю страницу после успешной авторизации
+        return reverse_lazy('home')
 
 
 class RegisterView(FormView):
     template_name = 'registration/registration.html'
     form_class = RegistrationForm
-    success_url = reverse_lazy('login')  # Редирект на страницу входа
+    success_url = reverse_lazy('login')
 
     def form_valid(self, form):
         form.save()

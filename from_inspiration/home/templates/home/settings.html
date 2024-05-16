@@ -1,21 +1,73 @@
-{% extends 'home/layout.html' %}
+{% extends 'registration/layout.html' %}
 {% load bootstrap5 %}
-{% block title %}{{ card.name }}{% endblock %}
+{% load static %}
+{% block title %}Настройки профиля{% endblock %}
+
 {% block content %}
-    <h1>User Settings</h1>
+    <div class="container-fluid" style="height: 100vh">
+        <div class="row justify-content-md-center align-items-center" style="height: 100vh">
+            <div class="col-4" style="background: white; border-radius: 25px; padding-top: 20px; padding-bottom: 20px;">
+                <div class="row text-center">
+                    <div class="col align-self-center">
+                        <img src="{% static 'img/logo/logo.png' %}" alt="" style="height: 40px; width: 40px; background-color: #8D35E5; border-radius: 30px; color: white">
+                    </div>
+                </div>
+                <div class="row h3 text-center">
+                    <p>
+                        Настройки профиля <br>
+                        В inspiration
+                    </p>
+                </div>
+                <div class="col-10 align-self-center mx-auto">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
 
-    <!-- Форма для обновления профиля пользователя -->
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        {{ user_form.as_p }}
+                        <div class="text-center mb-3">
+                            <img src="{{ user.userprofile.picture.url }}" alt="Profile picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+                        </div>
 
-{#        {% bootstrap_label 'Логин' %}#}
-{#        {% bootstrap_field form.first_name show_label=False placeholder='Логин' %}#}
-{##}
-{#        {% bootstrap_label 'Пароль' %}#}
-{#        {% bootstrap_field form.last_name show_label=False placeholder='Пароль' %}#}
+                        <div class="mb-3">
+                            {% bootstrap_label 'Логин' %}
+                            {% bootstrap_field form.username show_label=False placeholder='Логин' %}
+                        </div>
 
-        <button type="submit">Save Changes</button>
-    </form>
+                        <div class="mb-3">
+                            {% bootstrap_label 'Почта' %}
+                            {% bootstrap_field form.email show_label=False placeholder='Почта' %}
+                        </div>
+
+                        <div class="mb-3">
+                            {% bootstrap_label 'Имя' %}
+                            {% bootstrap_field form.first_name show_label=False placeholder='Имя' %}
+                        </div>
+
+                        <div class="mb-3">
+                            {% bootstrap_label 'Фамилия' %}
+                            {% bootstrap_field form.last_name show_label=False placeholder='Фамилия' %}
+                        </div>
+
+                        <div class="mb-3">
+                            {% bootstrap_label 'Изображение' %}
+                            {% bootstrap_field form.picture show_label=False %}
+                        </div>
+
+                        {{ form.errors }}
+
+                        <div class="d-grid gap-2 col-9 mx-auto" style="padding-bottom: 10px">
+                            <button type="submit" class="btn" style="color: white; background-color: #8D35E4">
+                                Сохранить изменения
+                            </button>
+                        </div>
+
+                        <div class="row">
+                            <div class="col text-center">
+                                <a href="{% url 'user-detail' user.id %}" class="btn-link" style="color: #8D35E4">Отмена</a>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
