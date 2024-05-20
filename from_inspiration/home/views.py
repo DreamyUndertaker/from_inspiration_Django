@@ -40,13 +40,14 @@ class CardDetailView(View):
     template_name = 'home/card_detail.html'
 
     def get(self, request, slug):
-        card = Card.objects.get(slug=slug)
+        card = get_object_or_404(Card, slug=slug)
         comments = card.comments.all()
         form = CommentForm()
-        return render(request, self.template_name, {'card': card, 'comments': comments, 'form': form})
+        all_cards = Card.objects.all()  # Получаем список всех карточек
+        return render(request, self.template_name, {'card': card, 'comments': comments, 'form': form, 'all_cards': all_cards})
 
     def post(self, request, slug):
-        card = Card.objects.get(slug=slug)
+        card = get_object_or_404(Card, slug=slug)
         form = CommentForm(request.POST)
 
         if form.is_valid():
@@ -57,7 +58,8 @@ class CardDetailView(View):
             return redirect('card_detail', slug=slug)
 
         comments = card.comments.all()
-        return render(request, self.template_name, {'card': card, 'comments': comments, 'form': form})
+        all_cards = Card.objects.all()  # Получаем список всех карточек
+        return render(request, self.template_name, {'card': card, 'comments': comments, 'form': form, 'all_cards': all_cards})
 
 
 class UserProfileDetailView(DetailView):
