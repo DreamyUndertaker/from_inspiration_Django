@@ -2,55 +2,64 @@
 {% load bootstrap5 %}
 {% block title %}{{ card.name }}{% endblock %}
 {% block content %}
-    <div class="container-fluid">
-        <div class="card" style="">
-            <div class="row row align-items-center justify-content-center">
-                <div class="col-3 ">
-                    <img src="{{ card.image.url }}" alt="" class="img-fluid rounded-start">
+    <div class="container mt-4">
+        <div class="card mb-4">
+            <div class="row g-0 align-items-center">
+                <div class="col-md-4">
+                    <img src="{{ card.image.url }}" alt="{{ card.name }}" class="img-fluid rounded-start">
                 </div>
-                <div class="col-6">
-                    <div class="row">
-                        <div class="card-body ">
-                            <h5 class="card-title">Название: {{ card.name }}</h5>
-                            <p class="card-text">Описание: {{ card.about }}</p>
-                            <p class="card-text"><img src="{{ user.userprofile.picture.url }}" alt="" style="width: 50px; height: 50px"> {{ card.author }}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <h5 style="border-radius: 40px; background: #8D35E4; color: white; width: 200px">Комментарии:</h5>
-                       <div class="col-9" style="background: #8D35E4; margin: 10px; padding: 30px">
-                           {% for comment in comments %}
-                               <div class="col">
-                                   <div class="card mb-3" style="width: 30rem">
-                                       <h5 class="card-title">
-                                           <img src="{{ user.userprofile.picture.url }}" alt="" style="width: 50px; height: 50px">
-                                           {{ comment.author.username }}
-                                       </h5>
-                                       <div class="card-body">
-                                           {{ comment.text }}
-                                       </div>
-                                   </div>
-                               </div>
-                           {% endfor %}
-                           <div class="col-10 align-self-center mx-auto">
-                               <form method="post" style="color: white;">
-                                   {% csrf_token %}
-                                   {% bootstrap_label 'Добавить комментарий' %}
-                                   {% bootstrap_field form.text show_label=False placeholder='Добавить комментарий' %}
-                                   <button type="submit" class="btn btn-primary">
-                                       Отправить комментарий
-                                   </button>
-                               </form>
-                           </div>
-                       </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Название: {{ card.name }}</h5>
+                        <p class="card-text">Описание: {{ card.about }}</p>
+                        <p class="card-text"><img src="{{ user.userprofile.picture.url }}" alt="" class="rounded-circle me-2" style="width: 50px; height: 50px;"> {{ card.author }}</p>
+                        <button id="like-button" class="btn btn-primary" data-card-id="{{ card.id }}">
+                            {% if user in card.likes.all %}
+                                Unlike
+                            {% else %}
+                                Like
+                            {% endif %}
+                        </button>
+                        <span id="total-likes">{{ card.total_likes }} likes</span>
+                        <button id="save-button" class="btn btn-secondary" data-card-id="{{ card.id }}">
+                            {% if user in card.saved_by.all %}
+                                Unsave
+                            {% else %}
+                                Save
+                            {% endif %}
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-    </div> <br>
-    <div class="container-fluid">
+        <h5 class="text-center bg-primary text-white py-2 rounded">Комментарии:</h5>
+        <div class="bg-primary p-3 rounded mb-4">
+            {% for comment in comments %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'user-detail' user.id %}">
+                                <img src="{{ user.userprofile.picture.url }}" alt="" class="rounded-circle me-2" style="width: 50px; height: 50px;">
+                                {{ comment.author.username }}
+                            </a>
+                        </h5>
+                        <p class="card-text" style="">{{ comment.text }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                <div class="mb-3" style="color: white">
+                    {% bootstrap_label 'Добавить комментарий' %}
+                    {% bootstrap_field form.text show_label=False placeholder='Добавить комментарий' %}
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-light text-primary">Отправить комментарий</button>
+                </div>
+            </form>
+        </div>
         <h4>Похожие карточки:</h4>
-        <div class="row justify-content-center gap-5">
+        <div class="row justify-content-center gap-3">
             {% for card in all_cards %}
                 <div class="card" style="width: 18rem;">
                     <a href="{% url 'card_detail' card.slug %}">
@@ -62,4 +71,23 @@
             {% endfor %}
         </div>
     </div>
-{% endblock %}
+<script>
+    document.getElementById('like-button').addEventListener('click', function() {
+        const cardId = this.getAttribute('data-card-id');
+        fetch(`/like/${cardId}/`)
+            .then(response => response.json())
+            .then(data => {
+                this.textContent = data.liked ? 'Unlike' : 'Like';
+                document.getElementById('total-likes').textContent = `${data.total_likes} likes`;
+            });
+    });
+
+    document.getElementById('save-button').addEventListener('click', function() {
+        const cardId = this.getAttribute('data-card-id');
+        fetch(`/save/${cardId}/`)
+            .then(response => response.json())
+            .then(data => {
+                this.textContent = data.saved ? 'Unsave' : 'Save';
+            });
+    });
+</script>

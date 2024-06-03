@@ -26,10 +26,14 @@ class Card(models.Model):
     category = models.ForeignKey(Category, related_name='card', on_delete=models.CASCADE, blank=True, null=True)
     about = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    likes = models.ManyToManyField(User, related_name='liked_cards', blank=True)
     image = models.ImageField(upload_to='products/img')
 
     def get_absolute_url(self):
         return reverse('article_detail', kwargs={'slug': self.slug})
+
+    def total_likes(self):
+        return self.likes.count()
 
 
 class Comment(models.Model):
@@ -45,6 +49,7 @@ class Comment(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     picture = models.ImageField(default='users/user1.png', upload_to='users', blank=True, null=True)
+    saved_cards = models.ManyToManyField(Card, related_name='saved_by', blank=True)
 
     def __str__(self):
         return self.user.username

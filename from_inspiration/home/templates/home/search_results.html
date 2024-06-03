@@ -1,0 +1,43 @@
+{% extends 'home/layout.html' %}
+{% load bootstrap5 %}
+{% block title %}Результаты поиска{% endblock %}
+{% block content %}
+    <h1>Результаты поиска для "{{ query }}"</h1>
+    <h2>Карточки</h2>
+    {% if card_results %}
+        <div class="row justify-content-center gap-4">
+            {% for card in card_results %}
+                <div class="card" style="width: 18rem;">
+                    <a href="{% url 'card_detail' card.slug %}">
+                        <img src="{{ card.image.url }}" class="card-img-top" style="height: 330px;" alt="">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ card.name }}</h5>
+                        <p class="card-text">{{ card.about }}</p>
+                        <p class="card-text"><img src="{{ card.author.userprofile.picture.url }}" alt="" class="rounded-circle me-2" style="width: 50px; height: 50px;"> {{ card.author.username }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Нет карточек, соответствующих запросу.</p>
+    {% endif %}
+    <h2>Авторы</h2>
+    {% if user_results %}
+        <div class="row justify-content-center gap-4">
+            {% for user in user_results %}
+                <div class="card" style="width: 18rem;">
+                    <a href="{% url 'user-detail' user.user.id %}">
+                        <img src="{{ user.picture.url }}" class="card-img-top" style="height: 330px;" alt="">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ user.user.username }}</h5>
+                        <p class="card-text">{{ user.user.first_name }} {{ user.user.last_name }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Нет авторов, соответствующих запросу.</p>
+    {% endif %}
+{% endblock %}

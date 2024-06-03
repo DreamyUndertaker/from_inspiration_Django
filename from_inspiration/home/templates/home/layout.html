@@ -9,40 +9,33 @@
 </head>
 <body>
 {% load static %}
-{% block navbar %}
-    <div class="navbar">
-        <div class="container-fluid">
-            <div class="navbar-brand">
-                <a href="{% url 'home' %}">
-                    <img src="{% static 'img/logo/logo.png' %}" alt="" style="height: 40px; width: 40px; background-color: #8D35E5; border-radius: 30px; color: white">
-                </a>
-            </div>
-             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'img/logo/logo.png' %}" alt="" style="height: 40px; width: 40px; background-color: #8D35E5; border-radius: 30px; color: white">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                  <a class="nav-link active text-decoration-none" aria-current="page" href="{% url 'home' %}" style="color: black">
-                      From inspiration
-                  </a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
                 </li>
-             </ul>
-             <form class="d-flex gap-2">
-                 <div class="row">
-                    <div class="col">
-                        <input class="form-control" type="search" placeholder="Поиск" aria-label="Search" style="width: 140vh">
-                    </div>
-                    <div class="col">
-                        <button class="btn btn-outline-success" type="submit">Поиск</button>
-                    </div>
-                 </div>
-             </form>
+            </ul>
+            <form class="d-flex" method="get" action="{% url 'search' %}">
+                <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search" name="q">
+                <button class="btn btn-outline-success" type="submit">Поиск</button>
+            </form>
             {% if user.is_authenticated %}
                 <a class="nav-link" href="{% url 'user-detail' user.id %}">{{ user.username }}</a>
+            {% else %}
+                <a class="nav-link" href="{% url 'login' %}">Войти</a>
             {% endif %}
-
         </div>
     </div>
-{% endblock %}
-{% block content %}
+</nav>
 
-{% endblock %}
+{% block content %}{% endblock %}
 </body>
 </html>
