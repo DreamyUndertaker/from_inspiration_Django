@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0cb938f-05bf-4f44-a17b-5eddffa53a5b" name="Changes" comment="Backend for user edit ready, userprofile ready">
-      <change beforePath="$PROJECT_DIR$/from_inspiration/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/from_inspiration/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/from_inspiration/home/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/from_inspiration/home/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/from_inspiration/home/templates/home/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/from_inspiration/home/templates/home/settings.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/from_inspiration/home/templates/home/user_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/from_inspiration/home/templates/home/user_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/from_inspiration/home/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/from_inspiration/home/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/from_inspiration_Django.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/from_inspiration_Django.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +59,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Repos\LocalProject\Курсовые и дипломы 2024\Аня\Диплом\from_inspiration\registration" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Unnamed" type="Python.DjangoServer" factoryName="Django server" nameIsGenerated="true">
       <module name="from_inspiration_Django" />
@@ -109,6 +111,8 @@
       <workItem from="1715708603634" duration="9970000" />
       <workItem from="1715749297500" duration="1325000" />
       <workItem from="1715776615324" duration="10000" />
+      <workItem from="1718040446821" duration="2179000" />
+      <workItem from="1718129238940" duration="599000" />
     </task>
     <task id="LOCAL-00001" summary="Backend for user edit ready, userprofile ready">
       <option name="closed" value="true" />
